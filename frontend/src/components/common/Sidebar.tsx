@@ -5,7 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const menuItems = [
   { text: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/' },
-  { text: 'Rooms & Allocation', icon: <Home size={20} />, path: '/rooms' },
+  { text: 'Hostel & Rooms', icon: <Home size={20} />, path: '/rooms' },
+  { text: 'Room Allocations', icon: <UserCheck size={20} />, path: '/allocations' },
   { text: 'Complaints AI', icon: <AlertCircle size={20} />, path: '/complaints' },
   { text: 'Fees & Invoices', icon: <CreditCard size={20} />, path: '/fees' },
   { text: 'Mess Planner', icon: <Utensils size={20} />, path: '/mess' },

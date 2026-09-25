@@ -8,6 +8,8 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
+import { RoomManagementPage } from './pages/hostel/RoomManagementPage';
+import { AllocationPage } from './pages/hostel/AllocationPage';
 
 const queryClient = new QueryClient();
 
@@ -39,6 +41,8 @@ const AppContent: React.FC = () => {
             }
           >
             <Route index element={<DashboardPage />} />
+            <Route path="rooms" element={<RoomManagementPage />} />
+            <Route path="allocations" element={<AllocationPage />} />
             <Route path="*" element={<DashboardPage />} />
           </Route>
         </Routes>
