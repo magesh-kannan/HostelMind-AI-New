@@ -10,6 +10,14 @@ import { DashboardLayout } from './layouts/DashboardLayout';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { RoomManagementPage } from './pages/hostel/RoomManagementPage';
 import { AllocationPage } from './pages/hostel/AllocationPage';
+import { ComplaintManagementPage } from './pages/complaints/ComplaintManagementPage';
+import { AiAssistantPage } from './pages/ai/AiAssistantPage';
+import { BillingManagementPage } from './pages/billing/BillingManagementPage';
+import { MessManagementPage } from './pages/mess/MessManagementPage';
+import { FacilityManagementPage } from './pages/facility/FacilityManagementPage';
+import { AuditPage } from './pages/audit/AuditPage';
+import { DigitalIdPage } from './pages/digitalid/DigitalIdPage';
+import { CommunityPage } from './pages/community/CommunityPage';
 
 const queryClient = new QueryClient();
 
@@ -43,6 +51,14 @@ const AppContent: React.FC = () => {
             <Route index element={<DashboardPage />} />
             <Route path="rooms" element={<RoomManagementPage />} />
             <Route path="allocations" element={<AllocationPage />} />
+            <Route path="complaints" element={<ComplaintManagementPage />} />
+            <Route path="ai" element={<AiAssistantPage />} />
+            <Route path="fees" element={<BillingManagementPage />} />
+            <Route path="mess" element={<MessManagementPage />} />
+            <Route path="facilities" element={<FacilityManagementPage />} />
+            <Route path="audit" element={<AuditPage />} />
+            <Route path="digital-id" element={<DigitalIdPage />} />
+            <Route path="chat" element={<CommunityPage />} />
             <Route path="*" element={<DashboardPage />} />
           </Route>
         </Routes>

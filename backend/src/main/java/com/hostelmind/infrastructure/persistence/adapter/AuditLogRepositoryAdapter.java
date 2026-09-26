@@ -25,9 +25,30 @@ public class AuditLogRepositoryAdapter implements AuditLogRepositoryPort {
     }
 
     @Override
+    public List<AuditLog> findAll() {
+        return springDataAuditLogRepository.findAll().stream()
+                .map(this::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<AuditLog> findByUserId(UUID userId) {
         return springDataAuditLogRepository.findByUserId(userId)
                 .stream()
+                .map(this::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AuditLog> findByEntityType(String entityType) {
+        return springDataAuditLogRepository.findByEntityType(entityType).stream()
+                .map(this::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AuditLog> findByAction(String action) {
+        return springDataAuditLogRepository.findByActionContainingIgnoreCase(action).stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());
     }

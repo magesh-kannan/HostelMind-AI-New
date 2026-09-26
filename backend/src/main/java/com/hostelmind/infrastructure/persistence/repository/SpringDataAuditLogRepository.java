@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface SpringDataAuditLogRepository extends JpaRepository<AuditLogEntity, UUID> {
     List<AuditLogEntity> findByUserId(UUID userId);
+    List<AuditLogEntity> findByEntityType(String entityType);
+    List<AuditLogEntity> findByActionContainingIgnoreCase(String action);
 }
