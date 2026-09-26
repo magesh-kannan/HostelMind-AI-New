@@ -15,6 +15,7 @@ import {
 } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { billingApi } from '../../api/billingApi';
+import { hostelApi } from '../../api/hostelApi';
 import type {
   InvoiceDto,
   FeeStructureDto,
@@ -32,9 +33,17 @@ const INVOICE_STATUS_COLORS: Record<InvoiceStatus, string> = {
   CANCELLED: '#9ca3af',
 };
 
+const DEFAULT_HOSTEL_ID = '22222222-2222-2222-2222-222222222222';
+
 export const BillingManagementPage: React.FC = () => {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState(0);
+
+  const { data: hostels } = useQuery({
+    queryKey: ['hostels'],
+    queryFn: hostelApi.getHostels,
+  });
+  const activeHostelId = hostels?.[0]?.id || DEFAULT_HOSTEL_ID;
 
   // ─── Stats ───
   const { data: stats } = useQuery({
@@ -119,7 +128,7 @@ export const BillingManagementPage: React.FC = () => {
   const createFeeMutation = useMutation({
     mutationFn: () =>
       billingApi.createFeeStructure({
-        hostelId: '00000000-0000-0000-0000-000000000001',
+        hostelId: activeHostelId,
         roomType: fsRoomType,
         academicYear: '2026-2027',
         rentAmount: Number(fsRent),
@@ -352,7 +361,7 @@ export const BillingManagementPage: React.FC = () => {
             fullWidth
             value={studentId}
             onChange={(e) => setStudentId(e.target.value)}
-            placeholder="e.g. 00000000-0000-0000-0000-000000000001"
+            placeholder="e.g. 22222222-2222-2222-2222-222222222222"
           />
           <TextField
             label="Academic Year"

@@ -20,6 +20,8 @@ import {
 } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { complaintApi } from '../../api/complaintApi';
+import { hostelApi } from '../../api/hostelApi';
+import type { HostelDto } from '../../types/hostel';
 import type {
   ComplaintDto,
   ComplaintCategory,
@@ -222,9 +224,9 @@ const StatusHistoryModal: React.FC<{
 const CreateComplaintModal: React.FC<{
   open: boolean;
   onClose: () => void;
-  hostelId: string;
-}> = ({ open, onClose, hostelId }) => {
+}> = ({ open, onClose }) => {
   const queryClient = useQueryClient();
+  const [selectedHostelId, setSelectedHostelId] = useState('22222222-2222-2222-2222-222222222222');
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -233,10 +235,15 @@ const CreateComplaintModal: React.FC<{
   });
   const [error, setError] = useState('');
 
+  const { data: hostels } = useQuery({
+    queryKey: ['hostels'],
+    queryFn: hostelApi.getHostels,
+  });
+
   const mutation = useMutation({
     mutationFn: () =>
       complaintApi.createComplaint({
-        hostelId,
+        hostelId: selectedHostelId,
         title: form.title,
         description: form.description,
         category: form.category as ComplaintCategory,
@@ -264,6 +271,27 @@ const CreateComplaintModal: React.FC<{
       </DialogTitle>
       <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: 2.5 }}>
         {error && <Alert severity="error" onClose={() => setError('')}>{error}</Alert>}
+
+        <FormControl fullWidth required>
+          <InputLabel>Select Hostel Block</InputLabel>
+          <Select
+            label="Select Hostel Block"
+            value={selectedHostelId}
+            onChange={(e) => setSelectedHostelId(e.target.value)}
+          >
+            {hostels && hostels.length > 0 ? (
+              hostels.map((h: HostelDto) => (
+                <MenuItem key={h.id} value={h.id}>
+                  {h.name} ({h.genderType})
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem value="22222222-2222-2222-2222-222222222222">
+                Alpha Resident Hostel (COED)
+              </MenuItem>
+            )}
+          </Select>
+        </FormControl>
 
         <TextField
           label="Title"
@@ -447,9 +475,6 @@ export const ComplaintManagementPage: React.FC = () => {
   const [createOpen, setCreateOpen] = useState(false);
   const [historyComplaintId, setHistoryComplaintId] = useState<string | null>(null);
   const [updateComplaint, setUpdateComplaint] = useState<ComplaintDto | null>(null);
-
-  // Hard-coded demo hostelId — in production this would come from the user's profile
-  const DEMO_HOSTEL_ID = '00000000-0000-0000-0000-000000000001';
 
   const {
     data: complaints,
@@ -731,7 +756,6 @@ export const ComplaintManagementPage: React.FC = () => {
       <CreateComplaintModal
         open={createOpen}
         onClose={() => setCreateOpen(false)}
-        hostelId={DEMO_HOSTEL_ID}
       />
 
       <StatusHistoryModal

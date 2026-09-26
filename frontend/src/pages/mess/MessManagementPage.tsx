@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { messApi } from '../../api/messApi';
+import { hostelApi } from '../../api/hostelApi';
 import type {
   DayOfWeek,
   MealType,
@@ -28,10 +29,17 @@ import type {
 
 const DAYS: DayOfWeek[] = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
 const MEALS: MealType[] = ['BREAKFAST', 'LUNCH', 'SNACKS', 'DINNER'];
+const DEFAULT_HOSTEL_ID = '22222222-2222-2222-2222-222222222222';
 
 export const MessManagementPage: React.FC = () => {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState(0);
+
+  const { data: hostels } = useQuery({
+    queryKey: ['hostels'],
+    queryFn: hostelApi.getHostels,
+  });
+  const activeHostelId = hostels?.[0]?.id || DEFAULT_HOSTEL_ID;
 
   // ─── Operational Stats ───
   const { data: stats, refetch: refetchStats } = useQuery({
@@ -55,7 +63,7 @@ export const MessManagementPage: React.FC = () => {
   const saveMenuMutation = useMutation({
     mutationFn: () =>
       messApi.createOrUpdateMenu({
-        hostelId: '00000000-0000-0000-0000-000000000001',
+        hostelId: activeHostelId,
         dayOfWeek: selectedDay,
         mealType: menuMealType,
         items: menuItemsText,
