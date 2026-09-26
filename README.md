@@ -14,9 +14,9 @@
 
 ## 🌐 Live Deployed Application
 
-- 🚀 **Frontend Live Site (Vercel):** [https://hostelmind-ai-new.vercel.app](https://hostelmind-ai-new.vercel.app)
-- ⚙️ **Backend API Endpoint (Render):** [https://hostelmind-backend.onrender.com/api/v1](https://hostelmind-backend.onrender.com/api/v1)
-- 🏥 **Backend Health Check:** [https://hostelmind-backend.onrender.com/actuator/health](https://hostelmind-backend.onrender.com/actuator/health)
+- 🚀 **Frontend Live Site (Vercel):** [https://hostel-mind-ai-new.vercel.app](https://hostel-mind-ai-new.vercel.app/)
+- ⚙️ **Backend API Endpoint (Render):** [https://hostelmind-ai-new.onrender.com/api/v1](https://hostelmind-ai-new.onrender.com/api/v1)
+- 🏥 **Backend Health Check:** [https://hostelmind-ai-new.onrender.com/actuator/health](https://hostelmind-ai-new.onrender.com/actuator/health)
 
 ---
 
