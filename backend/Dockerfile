@@ -13,4 +13,4 @@ COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=70", "-XX:MaxMetaspaceSize=96m", "-Dspring.main.lazy-initialization=true", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:InitialRAMPercentage=25.0", "-XX:MaxRAMPercentage=50.0", "-XX:MetaspaceSize=128m", "-XX:MaxMetaspaceSize=192m", "-XX:ReservedCodeCacheSize=48m", "-Xss256k", "-Dspring.main.lazy-initialization=true", "-jar", "app.jar"]
