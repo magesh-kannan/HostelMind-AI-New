@@ -32,7 +32,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:3000,https://*.vercel.app}")
+    @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:3000,https://*.vercel.app,https://*.onrender.com}")
     private String allowedOrigins;
 
     @Bean
@@ -44,6 +44,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(
+                    "/",
+                    "/error",
+                    "/favicon.ico",
                     "/api/v1/auth/login",
                     "/api/v1/auth/register",
                     "/api/v1/auth/refresh",
@@ -77,10 +80,12 @@ public class SecurityConfig {
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
 
+        // Always allow wildcard pattern matching so Vercel preview domains, localhost, and custom domains are permitted
         if (origins.isEmpty() || origins.contains("*")) {
             configuration.setAllowedOriginPatterns(List.of("*"));
         } else {
-            configuration.setAllowedOriginPatterns(origins);
+            // Include wildcard pattern matching for Vercel and localhost
+            configuration.setAllowedOriginPatterns(List.of("*"));
         }
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"));
